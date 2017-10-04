@@ -17,22 +17,20 @@ int anterior[VERTICES];
 int aberto[VERTICES];
 
 void Inicializa();
-void Dijkstra(int inicio, int fim);
+void Dijkstra(int inicio);
 void ImprimeMatriz();
 void ImprimeDados();
 void CalculaArestasVerticeAtual(int VAtual, int VInicial);
 int CalculaMinimo(int VAtual, int VInicial);
+void ImprimeCaminho(int Inicial, int Final);
 
 								
 
 int main(int argc, char *argv[]) {
-	printf("inicio \n");
-	//vai de A=0 até G=6
 	ImprimeMatriz();
-	Dijkstra(0, 6);
-	ImprimeMatriz();
+	Dijkstra(0);
 	ImprimeDados();
-	printf("fim \n");
+	ImprimeCaminho(0, 6);
 	return 0;
 }
 
@@ -50,15 +48,14 @@ void inicializa(int inicio){
 	
 }
 
-void Dijkstra(int inicio, int fim){	
+void Dijkstra(int inicio){	
 	int i,j, VAtual;
 		
 	inicializa(inicio);
 	
 	VAtual = inicio;
-	printf("/n caminho:");
-	while(VAtual != -1){
-		printf("%d,", VAtual);
+	
+	while(VAtual != -1){		
 		VAtual = CalculaMinimo(VAtual, inicio);
 	}
 }
@@ -101,7 +98,7 @@ int CalculaMinimo(int VAtual, int VInicial){
 
 void ImprimeMatriz(){
 	int i, j;
-	printf("\n-----------------------------");
+	printf("\n-------------MATRIZ----------------");
 	for (i=0; i<VERTICES; i++){
 		printf("\n");
 		for (j=0; j<VERTICES; j++){
@@ -111,13 +108,25 @@ void ImprimeMatriz(){
 	printf("\n-----------------------------");
 }
 
+void ImprimeCaminho(int Inicial, int Final){
+	int i;
+	printf("\n Inicial %d, Final %d, Custo Total: %d, caminho: ", Inicial, Final, distancia[Final]);
+	i=Final;
+	
+	while(i>=Inicial){		
+		printf("%d, ", i);
+		i = anterior[i];
+	}
+	printf("\n---------------");
+}
+
 void ImprimeDados(){
 	int i;
-	printf("\n---------------\n");
+	printf("\n------DADOS---------\n");
 	for (i=0; i<VERTICES; i++){
-		printf("Distancia:%d ", distancia[i]);
-		printf("anterior:%d ", anterior[i]);
-		printf("aberto:%d ", aberto[i]);
+		printf("Distancia: |%d| ", distancia[i]);
+		printf("anterior: |%d| ", anterior[i]);
+		//printf("aberto: |%d| ", aberto[i]);
 		
 		printf("\n");
 	}
