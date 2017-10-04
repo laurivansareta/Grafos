@@ -90,7 +90,7 @@ int CalculaMinimo(int VAtual, int VInicial){
 		//se for o inicial ele ignora e vai para o próximo
 		if (j==VInicial) continue;
 		
-		if ((aberto[j]) && (grafo[VAtual][j] > 0) && (grafo[VAtual][j] < valMin)){
+		if ((aberto[j]) && (grafo[VAtual][j] > 0) && (distancia[j] < valMin)){
 			valMin = grafo[VAtual][j];
 			min = j;
 		}
