@@ -20,6 +20,8 @@ void Inicializa();
 void Dijkstra(int inicio, int fim);
 void ImprimeMatriz();
 void ImprimeDados();
+void CalculaArestasVerticeAtual(int VAtual, int VInicial);
+int CalculaMinimo(int VAtual, int VInicial);
 
 								
 
@@ -34,7 +36,6 @@ int main(int argc, char *argv[]) {
 	return 0;
 }
 
-
 void inicializa(int inicio){
 	int i;
 	for (i=0; i < VERTICES; i++){
@@ -44,44 +45,58 @@ void inicializa(int inicio){
 	}
 	//primeira distância é zero
 	distancia[inicio] = 0;
+	aberto[inicio] = 0;
+	anterior[inicio] = -1;
 	
 }
 
 void Dijkstra(int inicio, int fim){	
-	int i,j;
-	
+	int i,j, VAtual;
+		
 	inicializa(inicio);
 	
-	for (i=0; i<VERTICES; i++){
-		int min = -1;
-		int valMin = INFINITO;
-		
-		//se for o inicial ele ignora e vai para o próximo
-//		if (i==inicio) continue;
-		 
-		
-		//Procura o vértice menor
-		for (j=0; j<VERTICES; j++){			
-			//se for o inicial ele ignora e vai para o próximo
-			if (j==inicio) continue;
-			
-			if ((aberto[j]) && (grafo[i][j] > 0) && (grafo[i][j] < valMin)){
-				valMin = grafo[i][j];
-				min = j;
-			}
-		}
-		aberto[min] = valMin;
-//		for (j=1; j<VERTICES; j++){
-//			if (grafo[min][0] + grafo[min][j] < grafo[j][0]){
-//				grafo[j][0] = grafo[min][0] + grafo[min][j];
-//			}
-//		}
+	VAtual = inicio;
+	printf("/n caminho:");
+	while(VAtual != -1){
+		printf("%d,", VAtual);
+		VAtual = CalculaMinimo(VAtual, inicio);
 	}
-	
 }
 
-void CalculaArestasAtual(int atual){
+void CalculaArestasVerticeAtual(int VAtual, int VInicial){	
+	int i;
+	int valMin = INFINITO;
 	
+	for (i=0; i<VERTICES; i++){
+		if (aberto[i] && (grafo[VAtual][i] != 0)){
+			if ((distancia[VAtual] + grafo[VAtual][i]) < distancia[i]){
+				distancia[i] = (distancia[VAtual] + grafo[VAtual][i]);
+				anterior[i] = VAtual;
+			}
+		}		
+	}	
+}
+
+int CalculaMinimo(int VAtual, int VInicial){
+	
+	CalculaArestasVerticeAtual(VAtual, VInicial);
+	int j;
+	int min = -1;
+	int valMin = INFINITO;
+			
+	//Procura o vértice menor
+	for (j=0; j<VERTICES; j++){
+	
+		//se for o inicial ele ignora e vai para o próximo
+		if (j==VInicial) continue;
+		
+		if ((aberto[j]) && (grafo[VAtual][j] > 0) && (grafo[VAtual][j] < valMin)){
+			valMin = grafo[VAtual][j];
+			min = j;
+		}
+	}
+	aberto[min] = 0;	
+	return min;
 }
 
 void ImprimeMatriz(){
