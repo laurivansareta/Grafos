@@ -28,6 +28,8 @@ void ImprimeCaminho(int Inicial, int Final);
 
 int main(int argc, char *argv[]) {
 	ImprimeMatriz();
+	
+	// Chamada da função que executa o algoritimo, passando o vértice origem como parâmetro.
 	Dijkstra(0);
 	ImprimeDados();
 	ImprimeCaminho(0, 6);
@@ -49,13 +51,14 @@ void inicializa(int inicio){
 }
 
 void Dijkstra(int inicio){	
-	int i,j, VAtual;
+	int i,j;
+	int VAtual = inicio;
 		
 	inicializa(inicio);
-	
-	VAtual = inicio;
-	
+		
 	while(VAtual != -1){		
+		/* Calcula o caminho de todos os vértices adjacentes ao atual, e retorna a menor distância
+		 entre os que estão abertos. */
 		VAtual = CalculaMinimo(VAtual, inicio);
 	}
 }
@@ -65,7 +68,9 @@ void CalculaArestasVerticeAtual(int VAtual, int VInicial){
 	int valMin = INFINITO;
 	
 	for (i=0; i<VERTICES; i++){
+		//Verifica se o vértice atual é adjacente
 		if (aberto[i] && (grafo[VAtual][i] != 0)){
+			//Se o custo atual mais o do vértice atual for menor do que o custo atual substitui e atualiza o anterior.
 			if ((distancia[VAtual] + grafo[VAtual][i]) < distancia[i]){
 				distancia[i] = (distancia[VAtual] + grafo[VAtual][i]);
 				anterior[i] = VAtual;
@@ -84,14 +89,15 @@ int CalculaMinimo(int VAtual, int VInicial){
 	//Procura o vértice menor
 	for (j=0; j<VERTICES; j++){
 	
-		//se for o inicial ele ignora e vai para o próximo
+		//se for o vértice origem ele ignora e vai para o próximo
 		if (j==VInicial) continue;
-		
+		//Se o vértice estiver aberto, for o menor custo vai guardar o valor e a aresta mínima.
 		if ((aberto[j]) && (grafo[VAtual][j] > 0) && (distancia[j] < valMin)){
 			valMin = grafo[VAtual][j];
 			min = j;
 		}
 	}
+	//Fecha o vértice de menor custo pois foi atualizado e o retorna.
 	aberto[min] = 0;	
 	return min;
 }

@@ -35,6 +35,7 @@ int distancia[VERTICES];
 int anterior[VERTICES];
 int cor[VERTICES];
 
+//Armazena os vérices cinzas que precisam ser processados
 int *fita=NULL;
 int tamFita=0;
 
@@ -67,11 +68,17 @@ int main(int argc, char *argv[]) {
 
 void BFS(int VAtual){
 	int processando=-1;
+			
 	inicializa(VAtual);
-	Empilha(VAtual);
 	
+	//Empilha o vértice origem.
+	Empilha(VAtual);
+		
 	do{
+		//enquanto existir vérices cinzas vai desempilhando
 		processando = Desempilha();
+		
+		//Para cada vértice cinza vai visitar seus adjacentes.
 		processaAdjacentes(processando);		
 	} while (processando != -1);
 }
@@ -86,6 +93,8 @@ void processaBranco(int VAtual, int VAnterior){
 void processaAdjacentes(int VAtual){
 	int i;
 	for (i=0; i < VERTICES; i++){
+		
+		//se for adjacente e estiver branco vai atualizar as informações e empilhar o mesmo;
 		if ((grafo[VAtual][i] > 0) && (cor[i] == BRANCO)){
 			processaBranco(i, VAtual);	
 		}
@@ -102,14 +111,13 @@ void inicializa(int VInicial){
 	}
 	
 	tamFita = 0;
-	
-	//primeira distância é zero
 	distancia[VInicial] = -1;
 	anterior[VInicial] = -1;
 	cor[VInicial] = CINZA;
 	
 }
 
+//Remove o primeiro vértice da fila, reordena e diminui o tamanho da fila..
 int Desempilha(){
 	int i,primeiro,temp;
 	primeiro=-1;
@@ -121,6 +129,7 @@ int Desempilha(){
 		fita[i] = fita[i+1];
 	}
 	
+	//diminui o tamanho da fila.
 	if (tamFita > 0){
 		tamFita--;
 		fita = realloc(fita, (tamFita * sizeof(int)));
@@ -128,6 +137,7 @@ int Desempilha(){
 	return primeiro;
 }
 
+//Coloca o vértice passado na última possição da fila.
 void Empilha(int VerticeEmp){
 	int novoTam = tamFita + 1;
 	if (!fita ){
