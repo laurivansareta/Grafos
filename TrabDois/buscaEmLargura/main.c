@@ -1,21 +1,28 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define VERTICES 8
+#define VERTICES 6
 #define INFINITO 10000000
 #define BRANCO 0
 #define CINZA 1
 #define PRETO 2
 
-int grafo[VERTICES][VERTICES] = { { 0, 7, 0, 5, 0, 0, 0} ,
-								  { 7, 0, 8, 9, 7, 0, 0},
-								  { 0, 8, 0, 0, 5, 0, 0},
-								  { 5, 9, 0, 0,15, 6, 0},
-								  { 0, 7, 5,15, 0, 8, 9},
-								  { 0, 0, 0, 6, 8, 0,11},
-								  { 0, 0, 0, 0, 9,11, 0},
-								  { 0, 0, 0, 0, 9,11, 0}};
+//int grafo[VERTICES][VERTICES] = { { 0, 7, 0, 5, 0, 0, 0} ,
+//								  { 7, 0, 8, 9, 7, 0, 0},
+//								  { 0, 8, 0, 0, 5, 0, 0},
+//								  { 5, 9, 0, 0,15, 6, 0},
+//								  { 0, 7, 5,15, 0, 8, 9},
+//								  { 0, 0, 0, 6, 8, 0,11},
+//								  { 0, 0, 0, 0, 9,11, 0},
+//								  { 0, 0, 0, 0, 9,11, 0}};
 								
+int grafo[VERTICES][VERTICES] = { { 0, 1, 0, 1, 0, 0} ,
+								  { 1, 0, 1, 0, 0, 0},
+								  { 0, 1, 0, 0, 0, 0},
+								  { 1, 0, 0, 0, 1, 1},
+								  { 0, 0, 0, 1, 0, 1},								  
+								  { 0, 0, 0, 1, 1, 0}};
+								  								
 int distancia[VERTICES];
 int anterior[VERTICES];
 int cor[VERTICES];
@@ -30,7 +37,7 @@ void ImprimeFita();
 void ImprimeMatriz();
 void ImprimeDados();
 
-void BFS(int A, int VAtual);
+void BFS(int VAtual);
 
 void inicializa(int VInicial);
 void processaAdjacentes(int VAtual);
@@ -38,13 +45,13 @@ void processaBranco(int VAtual, int VAnterior);
 
 int main(int argc, char *argv[]) {
 	ImprimeMatriz();
-	BFS(0,0);
+	BFS(0);
 	ImprimeDados();
 	ImprimeFita();
 	return 0;
 }
 
-void BFS(int A, int VAtual){
+void BFS(int VAtual){
 	int processando=-1;
 	inicializa(VAtual);
 	Empilha(VAtual);
@@ -64,8 +71,8 @@ void processaBranco(int VAtual, int VAnterior){
 
 void processaAdjacentes(int VAtual){
 	int i;
-	for (i=0; i < tamFita; i++){
-		if (cor[i] == BRANCO){
+	for (i=0; i < VERTICES; i++){
+		if ((grafo[VAtual][i] > 0) && (cor[i] == BRANCO)){
 			processaBranco(i, VAtual);	
 		}
 	}
@@ -83,8 +90,8 @@ void inicializa(int VInicial){
 	tamFita = 0;
 	
 	//primeira distância é zero
-	distancia[VInicial] = 0;
-	anterior[VInicial] = 0;
+	distancia[VInicial] = -1;
+	anterior[VInicial] = -1;
 	cor[VInicial] = CINZA;
 	
 }
@@ -134,9 +141,10 @@ void ImprimeMatriz(){
 void ImprimeDados(){
 	int i;
 	printf("\n------DADOS---------\n");
-	for (i=0; i<VERTICES; i++){
-		printf("Distancia: |%d| ", distancia[i]);
-		printf("anterior: |%d| ", anterior[i]);
+	for (i=0; i<VERTICES; i++){		
+		//soma um para ficar o caminho correto e não o índice.
+		printf("V-%d Distancia: |%d| ", i, distancia[i]+1);
+		printf("Anterior: |%d| ", anterior[i]+1);
 		printf("Cor: |%d| ", cor[i]);
 		
 		printf("\n");
