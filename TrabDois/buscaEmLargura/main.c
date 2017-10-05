@@ -1,27 +1,35 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define VERTICES 6
+#define VERTICES 21
 #define INFINITO 10000000
 #define BRANCO 0
 #define CINZA 1
 #define PRETO 2
 
-//int grafo[VERTICES][VERTICES] = { { 0, 7, 0, 5, 0, 0, 0} ,
-//								  { 7, 0, 8, 9, 7, 0, 0},
-//								  { 0, 8, 0, 0, 5, 0, 0},
-//								  { 5, 9, 0, 0,15, 6, 0},
-//								  { 0, 7, 5,15, 0, 8, 9},
-//								  { 0, 0, 0, 6, 8, 0,11},
-//								  { 0, 0, 0, 0, 9,11, 0},
-//								  { 0, 0, 0, 0, 9,11, 0}};
-								
-int grafo[VERTICES][VERTICES] = { { 0, 1, 0, 1, 0, 0} ,
-								  { 1, 0, 1, 0, 0, 0},
-								  { 0, 1, 0, 0, 0, 0},
-								  { 1, 0, 0, 0, 1, 1},
-								  { 0, 0, 0, 1, 0, 1},								  
-								  { 0, 0, 0, 1, 1, 0}};
+int grafo[VERTICES][VERTICES] = {   {0,	1,	0,	0,	0,	0,	0,	0,	0,	0,	1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0},
+									{1,	0,	1,	1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0},
+									{0,	1,	0,	0,	1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0},
+									{0,	1,	0,	0,	1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0},
+									{0,	0,	0,	0,	0,	1,	1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0},
+									{0,	0,	0,	0,	1,	0,	0,	1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0},
+									{0,	0,	0,	0,	1,	0,	0,	0,	1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0},
+									{0,	0,	0,	0,	0,	1,	0,	0,	0,	1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0},
+									{0,	0,	0,	0,	0,	0,	1,	0,	0,	1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0},
+									{0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	1},
+									{1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	1,	1,	1,	0,	0,	0,	0,	0,	0,	0},
+									{0,	0,	0,	1,	0,	0,	0,	0,	0,	0,	1,	0,	0,	0,	1,	0,	0,	0,	0,	0,	0},
+									{0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	1,	0,	0,	0,	1,	0,	0,	0,	0,	0,	0},
+									{0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	1,	0,	0,	0,	1,	0,	0,	0,	0,	0,	0},
+									{0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	1,	0,	1,	0,	0,	0},
+									{0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	1,	0,	1,	0,	0,	0,	0},
+									{0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	1,	0,	1,	1,	1,	0},
+									{0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	1,	0,	1,	0,	0,	0,	0},
+									{0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	1,	0,	0,	1,	1},
+									{0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	1,	0,	1,	0,	1},
+									{0,	0,	0,	0,	0,	0,	0,	0,	0,	1,	0,	0,	0,	0,	0,	0,	0,	0,	1,	1,	0}};
+									
+char IndiceParaVertice[VERTICES] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','z'};
 								  								
 int distancia[VERTICES];
 int anterior[VERTICES];
@@ -36,6 +44,7 @@ int Desempilha();
 void ImprimeFita();
 void ImprimeMatriz();
 void ImprimeDados();
+void ImprimeCaminho(int Inicial, int Final);
 
 void BFS(int VAtual);
 
@@ -45,9 +54,14 @@ void processaBranco(int VAtual, int VAnterior);
 
 int main(int argc, char *argv[]) {
 	ImprimeMatriz();
+	
+	//função que vai fazer a busca em largura.
 	BFS(0);
+	
+	//Imprime os resultados do processamento
 	ImprimeDados();
-	ImprimeFita();
+	ImprimeCaminho(0,20);
+	
 	return 0;
 }
 
@@ -141,13 +155,25 @@ void ImprimeMatriz(){
 void ImprimeDados(){
 	int i;
 	printf("\n------DADOS---------\n");
-	for (i=0; i<VERTICES; i++){		
+	for (i=0; i<VERTICES; i++){
 		//soma um para ficar o caminho correto e não o índice.
-		printf("V-%d Distancia: |%d| ", i, distancia[i]+1);
-		printf("Anterior: |%d| ", anterior[i]+1);
+		printf("V-%c Distancia: |%d| ", IndiceParaVertice[i], distancia[i]+1);
+		printf("Anterior: |%c| ", IndiceParaVertice[anterior[i]]);
 		printf("Cor: |%d| ", cor[i]);
 		
 		printf("\n");
+	}
+	printf("\n---------------");
+}
+
+void ImprimeCaminho(int Inicial, int Final){
+	int i;
+	printf("\n Inicial %c Final %c, Custo Total: %d, caminho: ", IndiceParaVertice[Inicial], IndiceParaVertice[Final], distancia[Final]);
+	i=Final;
+	
+	while(i>Inicial){		
+		printf("%c, ", IndiceParaVertice[anterior[i]]);
+		i = anterior[i];
 	}
 	printf("\n---------------");
 }
