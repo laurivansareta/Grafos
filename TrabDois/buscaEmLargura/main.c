@@ -2,6 +2,10 @@
 #include <stdlib.h>
 
 #define VERTICES 8
+#define INFINITO 10000000
+#define BRANCO 0
+#define CINZA 1
+#define PRETO 2
 
 int grafo[VERTICES][VERTICES] = { { 0, 7, 0, 5, 0, 0, 0} ,
 								  { 7, 0, 8, 9, 7, 0, 0},
@@ -23,16 +27,66 @@ void Empilha(int VerticeEmp);
 int Desempilha();
 
 void ImprimeFita();
+void ImprimeMatriz();
+void ImprimeDados();
 
+void BFS(int A, int VAtual);
+
+void inicializa(int VInicial);
+void processaAdjacentes(int VAtual);
+void processaBranco(int VAtual, int VAnterior);
 
 int main(int argc, char *argv[]) {
-	ImprimeFita();
-	Empilha(1);
-	Empilha(3);
-	Empilha(2);
-	Empilha(4);
+	ImprimeMatriz();
+	BFS(0,0);
+	ImprimeDados();
 	ImprimeFita();
 	return 0;
+}
+
+void BFS(int A, int VAtual){
+	int processando=-1;
+	inicializa(VAtual);
+	Empilha(VAtual);
+	
+	do{
+		processando = Desempilha();
+		processaAdjacentes(processando);		
+	} while (processando != -1);
+}
+
+void processaBranco(int VAtual, int VAnterior){
+	cor[VAtual] = CINZA;
+	distancia[VAtual] = distancia[VAnterior] + 1;
+	anterior[VAtual] = VAnterior;
+	Empilha(VAtual);
+}
+
+void processaAdjacentes(int VAtual){
+	int i;
+	for (i=0; i < tamFita; i++){
+		if (cor[i] == BRANCO){
+			processaBranco(i, VAtual);	
+		}
+	}
+	cor[VAtual] = PRETO;
+}
+
+void inicializa(int VInicial){
+	int i;
+	for (i=0; i < VERTICES; i++){
+		distancia[i] = INFINITO;
+		anterior[i] = -1;
+		cor[i] = BRANCO;
+	}
+	
+	tamFita = 0;
+	
+	//primeira distância é zero
+	distancia[VInicial] = 0;
+	anterior[VInicial] = 0;
+	cor[VInicial] = CINZA;
+	
 }
 
 int Desempilha(){
@@ -63,6 +117,31 @@ void Empilha(int VerticeEmp){
 		
 	fita[novoTam-1] = VerticeEmp;
 	tamFita++;
+}
+
+void ImprimeMatriz(){
+	int i, j;
+	printf("\n-------------MATRIZ----------------");
+	for (i=0; i<VERTICES; i++){
+		printf("\n");
+		for (j=0; j<VERTICES; j++){
+			printf(" |%d|", grafo[i][j]);
+		}			
+	}	
+	printf("\n-----------------------------");
+}
+
+void ImprimeDados(){
+	int i;
+	printf("\n------DADOS---------\n");
+	for (i=0; i<VERTICES; i++){
+		printf("Distancia: |%d| ", distancia[i]);
+		printf("anterior: |%d| ", anterior[i]);
+		printf("Cor: |%d| ", cor[i]);
+		
+		printf("\n");
+	}
+	printf("\n---------------");
 }
 
 void ImprimeFita(){
