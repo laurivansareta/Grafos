@@ -10,13 +10,13 @@
 int grafo[VERTICES][VERTICES] = {   {0,	1,	0,	0,	0,	0,	0,	0,	0,	0,	1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0},
 									{1,	0,	1,	1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0},
 									{0,	1,	0,	0,	1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0},
-									{0,	1,	0,	0,	1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0},
-									{0,	0,	0,	0,	0,	1,	1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0},
+									{0,	1,	0,	0,	1,	0,	0,	0,	0,	0,	1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0},
+									{0,	0,	1,	1,	0,	1,	1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0},
 									{0,	0,	0,	0,	1,	0,	0,	1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0},
 									{0,	0,	0,	0,	1,	0,	0,	0,	1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0},
 									{0,	0,	0,	0,	0,	1,	0,	0,	0,	1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0},
 									{0,	0,	0,	0,	0,	0,	1,	0,	0,	1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0},
-									{0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	1},
+									{0,	0,	0,	0,	0,	0,	0,	1,	1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	1},
 									{1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	1,	1,	1,	0,	0,	0,	0,	0,	0,	0},
 									{0,	0,	0,	1,	0,	0,	0,	0,	0,	0,	1,	0,	0,	0,	1,	0,	0,	0,	0,	0,	0},
 									{0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	1,	0,	0,	0,	1,	0,	0,	0,	0,	0,	0},
@@ -54,14 +54,23 @@ void processaAdjacentes(int VAtual);
 void processaBranco(int VAtual, int VAnterior);
 
 int main(int argc, char *argv[]) {
+	int vInicio=0;
+	int vFim=20;
+	
 	ImprimeMatriz();
 	
+	printf("\n ->> Digite o vertice Inicial \n");
+	scanf("%i", &vInicio);
+	
+	printf("\n ->> Digite o vertice Final \n");
+	scanf("%i", &vFim);
+	
 	//função que vai fazer a busca em largura.
-	BFS(0);
+	BFS(vInicio);
 	
 	//Imprime os resultados do processamento
 	ImprimeDados();
-	ImprimeCaminho(0,20);
+	ImprimeCaminho(vInicio, vFim);
 	
 	return 0;
 }
@@ -193,6 +202,7 @@ void ImprimeFita(){
 	printf("\n Fita: ");
 	
 	for(i=0; i < tamFita; i++){
-		printf("%d, ", fita[i]);
+		printf("%c, ", IndiceParaVertice[fita[i]]);
 	}
 }
+
