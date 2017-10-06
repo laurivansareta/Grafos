@@ -11,6 +11,8 @@ int grafo[VERTICES][VERTICES] = { { 0, 7, 0, 5, 0, 0, 0} ,
 								  { 0, 7, 5,15, 0, 8, 9},
 								  { 0, 0, 0, 6, 8, 0,11},
 								  { 0, 0, 0, 0, 9,11, 0}};
+								  
+char IndiceParaVertice[VERTICES] = {'A','B','C','D','E','F','G'};								  
 								
 int distancia[VERTICES];
 int anterior[VERTICES];
@@ -27,12 +29,21 @@ void ImprimeCaminho(int Inicial, int Final);
 								
 
 int main(int argc, char *argv[]) {
+	int vInicio=0;
+	int vFim=6;
+	
 	ImprimeMatriz();
 	
+	printf("\n ->> Digite o vertice Inicial \n");
+	scanf("%i", &vInicio);
+	
+	printf("\n ->> Digite o vertice Final \n");
+	scanf("%i", &vFim);
+	
 	// Chamada da função que executa o algoritimo, passando o vértice origem como parâmetro.
-	Dijkstra(0);
+	Dijkstra(vInicio);
 	ImprimeDados();
-	ImprimeCaminho(0, 6);
+	ImprimeCaminho(vInicio, vFim);
 	return 0;
 }
 
