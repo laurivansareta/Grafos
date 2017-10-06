@@ -72,6 +72,8 @@ int main(int argc, char *argv[]) {
 	ImprimeDados();
 	ImprimeCaminho(vInicio, vFim);
 	
+	printf("\n ->> Pressione qualquer letra para sair \n");
+	scanf("%i", &vFim);
 	return 0;
 }
 
@@ -120,7 +122,7 @@ void inicializa(int VInicial){
 	}
 	
 	tamFita = 0;
-	distancia[VInicial] = -1;
+	distancia[VInicial] = 0;
 	anterior[VInicial] = -1;
 	cor[VInicial] = CINZA;
 	
@@ -176,7 +178,7 @@ void ImprimeDados(){
 	printf("\n------DADOS---------\n");
 	for (i=0; i<VERTICES; i++){
 		//soma um para ficar o caminho correto e não o índice.
-		printf("V-%c Distancia: |%d| ", IndiceParaVertice[i], distancia[i]+1);
+		printf("V-%c Distancia: |%d| ", IndiceParaVertice[i], distancia[i]);
 		printf("Anterior: |%c| ", IndiceParaVertice[anterior[i]]);
 		printf("Cor: |%d| ", cor[i]);
 		
@@ -189,6 +191,8 @@ void ImprimeCaminho(int Inicial, int Final){
 	int i;
 	printf("\n Inicial %c Final %c, Custo Total: %d, caminho: ", IndiceParaVertice[Inicial], IndiceParaVertice[Final], distancia[Final]);
 	i=Final;
+	
+	printf("%c, ", IndiceParaVertice[Final]);
 	
 	while(i>Inicial){		
 		printf("%c, ", IndiceParaVertice[anterior[i]]);

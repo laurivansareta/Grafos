@@ -127,11 +127,11 @@ void ImprimeMatriz(){
 
 void ImprimeCaminho(int Inicial, int Final){
 	int i;
-	printf("\n Inicial %d, Final %d, Custo Total: %d, caminho: ", Inicial, Final, distancia[Final]);
+	printf("\n Inicial %c, Final %c, Custo Total: %d, caminho: ", IndiceParaVertice[Inicial], IndiceParaVertice[Final], distancia[Final]);
 	i=Final;
 	
 	while(i>=Inicial){		
-		printf("%d, ", i);
+		printf("%c, ", IndiceParaVertice[i]);
 		i = anterior[i];
 	}
 	printf("\n---------------");
@@ -141,8 +141,8 @@ void ImprimeDados(){
 	int i;
 	printf("\n------DADOS---------\n");
 	for (i=0; i<VERTICES; i++){
-		printf("Distancia: |%d| ", distancia[i]);
-		printf("anterior: |%d| ", anterior[i]);
+		printf("V-%c  Distancia: |%d| ", IndiceParaVertice[i], distancia[i]);
+		printf("Anterior: |%c| ", IndiceParaVertice[anterior[i]]);
 		//printf("aberto: |%d| ", aberto[i]);
 		
 		printf("\n");
