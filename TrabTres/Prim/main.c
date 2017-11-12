@@ -19,12 +19,12 @@ int anterior[VERTICES];
 int aberto[VERTICES];
 
 void Inicializa(int inicio);
-void prism(int inicio);
+void Prim(int inicio);
 void ImprimeMatriz();
-void ImprimeDados();
+void ImprimeDados(int Inicial);
 void CalculaArestasVerticeAtual(int VAtual, int VInicial);
 int CalculaMinimo(int VAtual, int VInicial);
-void ImprimeCaminho(int Inicial, int Final);
+void ImprimeCusto(int Inicial);
 
 								
 
@@ -37,13 +37,10 @@ int main(int argc, char *argv[]) {
 	printf("\n ->> Digite o vertice Inicial \n");
 	scanf("%i", &vInicio);
 	
-	printf("\n ->> Digite o vertice Final \n");
-	scanf("%i", &vFim);
-	
 	// Chamada da função que executa o algoritimo, passando o vértice origem como parâmetro.
-	prism(vInicio);
-	ImprimeDados();
-	ImprimeCaminho(vInicio, vFim);
+	Prim(vInicio);
+	ImprimeDados(vInicio);
+	ImprimeCusto(vInicio);
 	return 0;
 }
 
@@ -61,7 +58,7 @@ void inicializa(int inicio){
 	
 }
 
-void prism(int inicio){	
+void Prim(int inicio){	
 	int i,j;
 	int VAtual = inicio;
 		
@@ -103,8 +100,8 @@ int CalculaMinimo(int VAtual, int VInicial){
 		//se for o vértice origem ele ignora e vai para o próximo
 		if (j==VInicial) continue;
 		//Se o vértice estiver aberto, for o menor custo vai guardar o valor e a aresta mínima.
-		if ((aberto[j]) && (grafo[VAtual][j] > 0) && (distancia[j] < valMin)){
-			valMin = grafo[VAtual][j];
+		if ((aberto[j]) && (distancia[j] < valMin)){
+			valMin = distancia[j];
 			min = j;
 		}
 	}
@@ -125,27 +122,31 @@ void ImprimeMatriz(){
 	printf("\n-----------------------------");
 }
 
-void ImprimeCaminho(int Inicial, int Final){
-	int i;
-	printf("\n Inicial %d, Custo Total: %d, caminho: ", Inicial, distancia[Final]);
+void ImprimeCusto(int Inicial){
+	int i, custo;
+	custo = 0;
 	i=0;
 	
+//	printf("\n---------------\n");
+	
 	while(i<VERTICES){		
-		printf("%d, ", i);
-		i = anterior[i];
+//		printf("%d, ", distancia[i]);
+		custo = custo + distancia[i];		
+		i++;
 	}
 	printf("\n---------------");
+	printf("\n Custo Total: %d", custo);
 }
 
-void ImprimeDados(){
+void ImprimeDados(int Inicial){
 	int i;
-	printf("\n------DADOS---------\n");
-	for (i=0; i<VERTICES; i++){
-		printf("V-%d  Distancia: |%d| ", i, distancia[i]);
-		printf("Anterior: |%c| ", anterior[i]);
+	printf("\n------Geradora minima---------");
+	for (i=0; i<VERTICES; i++){		
+		if (i != Inicial)
+			printf("(%d, %d)", i, anterior[i]);
 		//printf("aberto: |%d| ", aberto[i]);
 		
 		printf("\n");
 	}
-	printf("\n---------------");
+	
 }
